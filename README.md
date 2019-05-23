@@ -75,9 +75,9 @@ class Store
   dispatch(action): void
 ```
 
-subscribe adds a callback function (and returns a function to unsubscribe that listener).
+Redux allows you to listen to state changes with listeners. Subscribe adds a callback function (and returns a function to unsubscribe that listener).
 
-dispatch calls the rootReducer on the current state, updates the state to be the
+Dispatch calls the rootReducer on the current state, updates the state to be the
 result of that pure function and then calls all the listeners.
 
 What's an action? Usually an object with the following type:
@@ -140,7 +140,7 @@ const applyMiddlewares = (middlewares) => (store) => (next) => (action) => {};
 
 ### 5. Bonus! redux-thunk
 
-It turns out redux thunk is just a middleware!
+It turns out redux thunk is just a middleware! Redux thunk is used to dispatch beefed up actions that look like actions but have a lot more functionality baked in (for example: api calls, async functions, or dispatching multiple actions).
 
 Implement a middleware that would allow you to write actions that look like
 this:
