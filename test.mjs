@@ -31,12 +31,12 @@ const thunkAction2 = () => (dispatch) => {
 
 // middlewares
 const logger = (store) => (next) => (action) => {
-  console.log('will dispatch', action);
+  console.log('will dispatch:', action);
 
   // Call the next dispatch method in the middleware chain.
   const returnValue = next(action);
 
-  console.log('state after dispatch', store.getState());
+  console.log('state after dispatch:', store.getState());
 
   // This will likely be the action itself, unless
   // a middleware further in chain changed it.
@@ -54,7 +54,7 @@ const thunk = (store) => (next) => (action) => {
 const rootReducer = combineReducers({ counter: countReducer });
 const store = createStore(rootReducer, {}, applyMiddlewares([thunk, logger]));
 
-console.log('initial state', store.getState());
+console.log('initial state: ', store.getState());
 
 store.subscribe(() => console.log(`State changed!`, store.getState()));
 store.dispatch(incrementAction(1));
