@@ -35,6 +35,35 @@ class App extends React.Component {
 }
 ```
 
+Enter Redux!
+
+- State
+
+```javascript
+{
+  counter: 0;
+}
+```
+
+- Actions
+
+```javascript
+{ type: string, data: object }
+```
+
+- Action Creators
+
+```
+const incrementAction = (count) => ({ type: 'increment', count });
+```
+
+- Actions mutate state with Reducers
+
+```
+const counterReducer = (state = 0, action) =>
+  action.type === 'increment' ? state + 1 : state;
+```
+
 ## Motivation
 
 If say you understand something you should be able to explain it to somebody.
@@ -80,12 +109,6 @@ subscribe adds a callback function (and returns a function to unsubscribe that l
 dispatch calls the rootReducer on the current state, updates the state to be the
 result of that pure function and then calls all the listeners.
 
-What's an action? Usually an object with the following type:
-
-```javascript
-{ type: string, data: object }
-```
-
 ### 2. combineReducers
 
 Each reducer only recieves a slice of the state (its name!)
@@ -97,7 +120,7 @@ const combineReducers = (reducers) => (state, action) => nextState;
 E.g.
 
 ```javascript
-const countReducer = (state = 0, action) =>
+const counterReducer = (state = 0, action) =>
   action.type === 'increment' ? state + 1 : state;
 
 combineReducers({ counter: countReducer });
