@@ -9,19 +9,19 @@ export default class Store {
     this.listeners = [];
   }
 
-  getState () {
+  getState() {
     return this.state;
   }
 
-  subscribe ( listener ) {
+  subscribe(listener) {
     this.listeners.push(listener);
 
     return () => {
-      this.listeners = this.listeners.filter(e => e !== listener);
-    }
+      this.listeners = this.listeners.filter((e) => e !== listener);
+    };
   }
 
-  replaceReducer ( nextReducer ) {
+  replaceReducer(nextReducer) {
     if (typeof nextReducer !== 'function') {
       throw `Store.replaceReducer - nextReducer must be a function!`;
     }
@@ -29,8 +29,8 @@ export default class Store {
     this.reducer = nextReducer;
   }
 
-  dispatch (action) {
+  dispatch(action) {
     this.state = this.reducer(this.state, action);
-    this.listeners.forEach(listener => listener());
+    this.listeners.forEach((listener) => listener());
   }
 }

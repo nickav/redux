@@ -1,48 +1,36 @@
-import Store from './store';
-import applyMiddlewares from './applyMiddlewares';
-import combineReducers from './combineReducers';
-
-export const createStore = (reducer, preloadedState = {}, enhancer = null) => {
-  const store = new Store(reducer, preloadedState);
-  if (enhancer) {
-    store.dispatch = enhancer(store)(store.dispatch.bind(store));
-  }
-  return store;
-}
-
-// test
+import { createStore, combineReducers, applyMiddlewares } from './src';
 
 // count reducer
 const initialState = 0;
 const countReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "increment": {
+    case 'increment': {
       return state + action.count;
     }
-    
+
     default: {
       return state;
     }
   }
-}
+};
 
 const wait = (ms) => new Promise((res) => setTimeout(res, ms));
 
-const incrementAction = (count) => ({ type: "increment", count });
+const incrementAction = (count) => ({ type: 'increment', count });
 
 const thunkAction = () => (dispatch, getState) => {
   wait(1000).then(() => {
     dispatch(incrementAction(10));
   });
-}
+};
 
 const thunkAction2 = () => (dispatch) => {
   dispatch(incrementAction(1));
   dispatch(incrementAction(2));
-}
+};
 
 // middlewares
-const logger = store => next => action => {
+const logger = (store) => (next) => (action) => {
   console.log('will dispatch', action);
 
   // Call the next dispatch method in the middleware chain.
@@ -53,20 +41,20 @@ const logger = store => next => action => {
   // This will likely be the action itself, unless
   // a middleware further in chain changed it.
   return returnValue;
-}
+};
 
-const thunk = store => next => action => {
+const thunk = (store) => (next) => (action) => {
   if (typeof action === 'function') {
     return action(store.dispatch, store.getState);
   }
-  
+
   return next(action);
 };
 
 const rootReducer = combineReducers({ counter: countReducer });
-const store = createStore(rootReducer, {}, applyMiddlewares([ thunk, logger ]));
+const store = createStore(rootReducer, {}, applyMiddlewares([thunk, logger]));
 
-console.log("initial state", store.getState());
+console.log('initial state', store.getState());
 
 store.subscribe(() => console.log(`State changed!`, store.getState()));
 store.dispatch(incrementAction(1));
