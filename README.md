@@ -4,6 +4,44 @@
 
 Redux is a global state management library! [Read more about redux here](https://redux.js.org/introduction/getting-started).
 
+Passing state around can get out of hand!
+Generally keeping the data as close to where it is needed is good.
+
+```javacsript
+const Header = ({ users }) => <div>
+  There are {users.length} users on the site!
+</div>;
+
+const User => ({ name }) => <div>{name}</div>;
+
+const UserList = ({ users }) => <div>
+  {users.map((user, i) => <User user={user} key={i} />)}
+</div>;
+
+class App extends React.Component {
+  state = { users: [] };
+
+  componentWillMount() {
+    fetchUsers().then((users) => this.setState({ users }));
+  }
+
+  render() {
+	const { users } = this.state;
+	return (<div>
+	  <Header users={users} />
+	  <UserList users={users} />
+	</div>);
+  }
+}
+```
+
+## Motivation
+
+If say you understand something you should be able to explain it to somebody.
+How about explaining it to a computer?
+
+There's actually not much going on here:
+
 ```bash
 nick:~/dev/_learning/redux master > wc -l *.mjs src/*
       61 test.mjs
@@ -14,6 +52,8 @@ nick:~/dev/_learning/redux master > wc -l *.mjs src/*
        9 src/thunk.mjs
      137 total
 ```
+
+Coding things is a great way to demystify them!
 
 ## Redux Spec
 
