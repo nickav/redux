@@ -15,28 +15,32 @@ helper functions built around this.
 
 ```javascript
 class Store
-constructor(rootReducer, initialState = {})
-getState()
-subscribe(listener)
-replaceReducer(nextReducer)
-dispatch(action)
+  constructor(rootReducer, initialState = {})
+  getState(): state
+  subscribe(listener): (unsubscribe: Function)
+  replaceReducer(nextReducer): void
+  dispatch(action): void
 ```
+
+subscribe adds a callback function (and returns a function to unsubscribe that listener).
+
+dispatch calls the rootReducer on the current state, updates the state to be the
+result of that (hopefully) pure function and then calls all the listeners.
 
 ### 2. combineReducers
 
 Each reducer only recieves a slice of the state (its name!)
 
 ```javascript
-const combineReducers = (reducers) => (state, action) => state;
+const combineReducers = (reducers) => (state, action) => nextState;
 ```
 
 ### 3. createStore
 
-Should be pretty trivial so far!
+This method should be pretty trivial so far!
 
 ```javascript
-const createStore = (reducer, preloadedState = {}, enhancer = null) =>
-  new Store();
+const createStore = (reducer, preloadedState = {}, enhancer = null) => instanceof Store;
 ```
 
 But wait... what's an enhancer?
@@ -49,7 +53,7 @@ enhancer? It's just a middleware!
 OK, great, but like what's a middleware? It's a function that enhances dispatch (similar to how
 combineReducers takes a bunch of reducers and makes them act as one).
 
-Middleware signature:
+A middleware has the following signature:
 
 ```javascript
 const middleware = (store) => (next) => (action) => {};
@@ -61,5 +65,5 @@ This function has a weird signature!!!!!! Took us a while to finally get
 this one right (without cheating!)
 
 ```javascript
-applyMiddlewares = (middlewares) => (store) => (next) => (action) => {};
+const applyMiddlewares = (middlewares) => (store) => (next) => (action) => {};
 ```
